@@ -1,6 +1,6 @@
 *.pyc
 __pycache__
-python*.egg-info/*
+python*.egg-info
 dist/*
 build/*
 doc/doctest
