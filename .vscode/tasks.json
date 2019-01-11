@@ -1,0 +1,35 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Make: all",
+            "type": "shell",
+            "command": "make all",
+            "group": "build",
+            "problemMatcher": []
+        },
+        {
+            "label": "Make: clean",
+            "type": "shell",
+            "command": "make clean",
+            "group": "build",
+            "problemMatcher": []
+        },
+        {
+            "label": "Make: package",
+            "type": "shell",
+            "command": "make package",
+            "group": "build",
+            "problemMatcher": []
+        },
+        {
+            "label": "Make: publish",
+            "type": "shell",
+            "command": "make publish",
+            "group": "build",
+            "problemMatcher": []
+        }
+    ]
+}
