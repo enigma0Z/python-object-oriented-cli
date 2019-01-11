@@ -18,6 +18,13 @@
             "problemMatcher": []
         },
         {
+            "label": "Make: doc",
+            "type": "shell",
+            "command": "make doc",
+            "group": "build",
+            "problemMatcher": []
+        },
+        {
             "label": "Make: package",
             "type": "shell",
             "command": "make package",
@@ -28,6 +35,13 @@
             "label": "Make: publish",
             "type": "shell",
             "command": "make publish",
+            "group": "build",
+            "problemMatcher": []
+        },
+        {
+            "label": "Make: test",
+            "type": "shell",
+            "command": "make test",
             "group": "build",
             "problemMatcher": []
         }
