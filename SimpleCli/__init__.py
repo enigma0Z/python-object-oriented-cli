@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+"""
+simpleCli
+"""
 
-from .Base import BaseCommand
-from .Exceptions import *
+from .base import BaseCommand
