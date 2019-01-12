@@ -19,7 +19,7 @@ clean_code:
 	@rm -rf build dist python*.egg-info && false || echo "Build artifacts cleaned"
 
 clean_doc:
-	@rm -rf $(SPHINX_BUILD)/doctest $(SPHINX_BUILD)/doctrees && false || echo "Docs cleaned"
+	@rm -rf $(SPHINX_BUILD)/.doctrees $(SPHINX_BUILD)/doctest $(SPHINX_BUILD)/doctrees && false || echo "Docs cleaned"
 
 package:
 	$(PYTHON) setup.py sdist bdist_wheel
