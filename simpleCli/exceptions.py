@@ -7,7 +7,6 @@ class CliException(Exception):
     """
     CliException
     """
-    pass
 
 class NotImplementedException(CliException):
     """
@@ -19,4 +18,4 @@ class NotImplementedException(CliException):
         self.instance = args[0]
 
     def __str__(self):
-        return "{}: Not implemented".format(self.args[0].cmd)
+        return "{}: Not implemented".format(self.instance.cmd)

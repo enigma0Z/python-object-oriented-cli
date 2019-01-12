@@ -49,7 +49,7 @@ class InterpreterCommand(BaseCommand):
         Call member command <cmd> with *args
         """
         try:
-            assert cmd != None
+            assert cmd is not None
             self.commands[cmd].do(*args)
         except AssertionError:
             raise CliException("You must specify a command to run")

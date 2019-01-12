@@ -4,7 +4,7 @@ PYTHON ?= python3
 TWINE ?= $(PYTHON) -m twine
 SPHINX ?= $(PYTHON) -m sphinx.cmd.build
 SPHINX_SOURCE     = sphinx
-SPHINX_BUILD      = doc
+SPHINX_BUILD      = docs
 
 PYPI_URL ?= https://test.pypi.org/legacy/
 
@@ -19,7 +19,7 @@ clean_code:
 	@rm -rf build dist python*.egg-info && false || echo "Build artifacts cleaned"
 
 clean_doc:
-	@rm -rf doc/doctest doc/doctrees && false || echo "Docs cleaned"
+	@rm -rf $(SPHINX_BUILD)/doctest $(SPHINX_BUILD)/doctrees && false || echo "Docs cleaned"
 
 package:
 	$(PYTHON) setup.py sdist bdist_wheel
@@ -28,7 +28,6 @@ publish:
 	$(TWINE) upload --repository-url $(PYPI_URL) dist/*
 
 doc: 
-	$(SPHINX) -M doctest "$(SPHINX_SOURCE)" "$(SPHINX_BUILD)" $(SPHINXOPTS)
 	$(SPHINX) -M html "$(SPHINX_SOURCE)" "$(SPHINX_BUILD)" $(SPHINXOPTS)
 
 test: clean

@@ -49,7 +49,7 @@ class BaseCommand:
         else:
             self.cmd = kwargs['cmd']
 
-        if self.cmd != None:
+        if self.cmd is not None:
             self.stack.append(self.cmd)
 
         if "description" in kwargs:
