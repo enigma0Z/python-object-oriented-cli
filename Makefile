@@ -28,7 +28,7 @@ publish:
 	$(TWINE) upload --repository-url $(PYPI_URL) dist/*
 
 doc: 
-	$(SPHINX) -M html "$(SPHINX_SOURCE)" "$(SPHINX_BUILD)" $(SPHINXOPTS)
+	$(SPHINX) -b html "$(SPHINX_SOURCE)" "$(SPHINX_BUILD)" $(SPHINXOPTS)
 
 test: clean
 	$(PYTHON) -m pylint $(TARGETS)
