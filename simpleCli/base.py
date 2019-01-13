@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """
 simpleCli.base
+--------------
 """
 
 from argparse import ArgumentParser
