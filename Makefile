@@ -28,6 +28,7 @@ publish:
 	$(TWINE) upload dist/*
 
 doc: 
+	@rm -rf $(SPHINX_BUILD)
 	$(SPHINX) -b html "$(SPHINX_SOURCE)" "$(SPHINX_BUILD)" $(SPHINXOPTS)
 
 test: clean
