@@ -10,7 +10,7 @@ PYPI_URL ?= https://test.pypi.org/legacy/
 
 .PHONY: doc
 
-all: clean package publish
+all: clean test doc package publish
 clean: clean_code clean_doc
 
 clean_code:
