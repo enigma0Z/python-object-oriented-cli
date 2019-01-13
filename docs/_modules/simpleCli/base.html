@@ -42,7 +42,7 @@
 <span class="kn">from</span> <span class="nn">collections</span> <span class="k">import</span> <span class="n">deque</span>
 <span class="kn">from</span> <span class="nn">.exceptions</span> <span class="k">import</span> <span class="n">NotImplementedException</span>
 
-<div class="viewcode-block" id="BaseCommand"><a class="viewcode-back" href="../../tests.html#simpleCli.base.BaseCommand">[docs]</a><span class="k">class</span> <span class="nc">BaseCommand</span><span class="p">:</span>
+<div class="viewcode-block" id="Command"><a class="viewcode-back" href="../../tests.html#simpleCli.base.Command">[docs]</a><span class="k">class</span> <span class="nc">Command</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Base class for CLI classes.  Realistically, this really doesn&#39;t do anything other than</span>
 <span class="sd">    establish basic metadata for the class and provide structure for subclasses to follow</span>
@@ -53,9 +53,11 @@
 <span class="sd">    .. testsetup:: *</span>
 
 <span class="sd">        from collections import deque</span>
-<span class="sd">        from simpleCli.base import BaseCommand</span>
+
+<span class="sd">        from simpleCli import base</span>
 <span class="sd">        from simpleCli.exceptions import *</span>
-<span class="sd">        baseCommand = BaseCommand(</span>
+
+<span class="sd">        baseCommand = base.Command(</span>
 <span class="sd">            name=&quot;Test&quot;,</span>
 <span class="sd">            description=&quot;Description&quot;)</span>
 
@@ -70,31 +72,32 @@
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">cmd</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">stack</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="c1">#pylint: disable=unused-argument</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span>
+        <span class="k">assert</span> <span class="n">name</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">stack</span> <span class="o">=</span> <span class="n">deque</span><span class="p">([])</span>
 
-        <span class="k">if</span> <span class="s2">&quot;stack&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">stack</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;stack&#39;</span><span class="p">])</span>
+        <span class="k">if</span> <span class="n">stack</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">stack</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">stack</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="s2">&quot;cmd&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">cmd</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">cmd</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">cmd</span> <span class="o">=</span> <span class="n">name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">cmd</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;cmd&#39;</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">cmd</span> <span class="o">=</span> <span class="n">cmd</span>
 
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">cmd</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">stack</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cmd</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stack</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cmd</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="s2">&quot;description&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">description</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;description&#39;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">description</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">description</span> <span class="o">=</span> <span class="n">description</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">description</span> <span class="o">=</span> <span class="kc">None</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">initParser</span><span class="p">()</span>
 
-<div class="viewcode-block" id="BaseCommand.initParser"><a class="viewcode-back" href="../../tests.html#simpleCli.base.BaseCommand.initParser">[docs]</a>    <span class="k">def</span> <span class="nf">initParser</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Command.initParser"><a class="viewcode-back" href="../../tests.html#simpleCli.base.Command.initParser">[docs]</a>    <span class="k">def</span> <span class="nf">initParser</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Initalize the argument parser.  Subclasses should define any arguments for the command</span>
 <span class="sd">        in this method. If you subclass this class, define your parser args here so that if the</span>
@@ -104,7 +107,7 @@
             <span class="n">prog</span><span class="o">=</span><span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">stack</span><span class="p">),</span>
             <span class="n">description</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">description</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="BaseCommand.stackAppendleft"><a class="viewcode-back" href="../../tests.html#simpleCli.base.BaseCommand.stackAppendleft">[docs]</a>    <span class="k">def</span> <span class="nf">stackAppendleft</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="Command.stackAppendleft"><a class="viewcode-back" href="../../tests.html#simpleCli.base.Command.stackAppendleft">[docs]</a>    <span class="k">def</span> <span class="nf">stackAppendleft</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Updates self.stack by prepending value to the list and re-initalizing the parser</span>
 <span class="sd">        If you create a subclass that contains other commands (like the Interpreter class)</span>
@@ -114,7 +117,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">stack</span><span class="o">.</span><span class="n">appendleft</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">initParser</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="BaseCommand.parse"><a class="viewcode-back" href="../../tests.html#simpleCli.base.BaseCommand.parse">[docs]</a>    <span class="k">def</span> <span class="nf">parse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
+<div class="viewcode-block" id="Command.parse"><a class="viewcode-back" href="../../tests.html#simpleCli.base.Command.parse">[docs]</a>    <span class="k">def</span> <span class="nf">parse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Parse arguments through self._parser</span>
 
@@ -122,7 +125,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">(</span><span class="n">args</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="BaseCommand.do"><a class="viewcode-back" href="../../tests.html#simpleCli.base.BaseCommand.do">[docs]</a>    <span class="k">def</span> <span class="nf">do</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
+<div class="viewcode-block" id="Command.do"><a class="viewcode-back" href="../../tests.html#simpleCli.base.Command.do">[docs]</a>    <span class="k">def</span> <span class="nf">do</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
         <span class="c1">#pylint: disable=unused-argument,invalid-name</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Execute the command (not implemented in BaseCommand)</span>

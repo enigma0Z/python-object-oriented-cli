@@ -38,23 +38,23 @@
 <span class="sd">simpleCli.echo</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="kn">from</span> <span class="nn">.base</span> <span class="k">import</span> <span class="n">BaseCommand</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="k">import</span> <span class="n">base</span>
 
-<div class="viewcode-block" id="EchoCommand"><a class="viewcode-back" href="../../tests.html#simpleCli.echo.EchoCommand">[docs]</a><span class="k">class</span> <span class="nc">EchoCommand</span><span class="p">(</span><span class="n">BaseCommand</span><span class="p">):</span>
+<div class="viewcode-block" id="Command"><a class="viewcode-back" href="../../tests.html#simpleCli.echo.Command">[docs]</a><span class="k">class</span> <span class="nc">Command</span><span class="p">(</span><span class="n">base</span><span class="o">.</span><span class="n">Command</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Simple echo command (for demonstration purposes)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
             <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Echo&quot;</span><span class="p">,</span>
             <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Print the input to the terminal&quot;</span><span class="p">)</span>
 
-<div class="viewcode-block" id="EchoCommand.initParser"><a class="viewcode-back" href="../../tests.html#simpleCli.echo.EchoCommand.initParser">[docs]</a>    <span class="k">def</span> <span class="nf">initParser</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Command.initParser"><a class="viewcode-back" href="../../tests.html#simpleCli.echo.Command.initParser">[docs]</a>    <span class="k">def</span> <span class="nf">initParser</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">initParser</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;args&quot;</span><span class="p">,</span> <span class="n">nargs</span><span class="o">=</span><span class="s1">&#39;*&#39;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Things to be echoed&quot;</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="EchoCommand.do"><a class="viewcode-back" href="../../tests.html#simpleCli.echo.EchoCommand.do">[docs]</a>    <span class="k">def</span> <span class="nf">do</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
+<div class="viewcode-block" id="Command.do"><a class="viewcode-back" href="../../tests.html#simpleCli.echo.Command.do">[docs]</a>    <span class="k">def</span> <span class="nf">do</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
         <span class="n">opts</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)</span>
         <span class="nb">print</span><span class="p">(</span><span class="o">*</span><span class="n">opts</span><span class="o">.</span><span class="n">args</span><span class="p">)</span></div></div>
 </pre></div>

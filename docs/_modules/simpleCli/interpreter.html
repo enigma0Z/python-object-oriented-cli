@@ -40,29 +40,80 @@
 
 <span class="kn">import</span> <span class="nn">sys</span>
 <span class="kn">import</span> <span class="nn">argparse</span>
-<span class="kn">from</span> <span class="nn">.base</span> <span class="k">import</span> <span class="n">BaseCommand</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="k">import</span> <span class="n">base</span>
 <span class="kn">from</span> <span class="nn">.exceptions</span> <span class="k">import</span> <span class="n">CliException</span>
 
-<div class="viewcode-block" id="InterpreterCommand"><a class="viewcode-back" href="../../tests.html#simpleCli.interpreter.InterpreterCommand">[docs]</a><span class="k">class</span> <span class="nc">InterpreterCommand</span><span class="p">(</span><span class="n">BaseCommand</span><span class="p">):</span>
+<div class="viewcode-block" id="Command"><a class="viewcode-back" href="../../tests.html#simpleCli.interpreter.Command">[docs]</a><span class="k">class</span> <span class="nc">Command</span><span class="p">(</span><span class="n">base</span><span class="o">.</span><span class="n">Command</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Interprets commands given (by, for example, sys.argv[]) into running subcommands in classes</span>
+<span class="sd">    Interprets commands given (by, for example, sys.argv[]) into running subcommands in classes.</span>
+<span class="sd">    Can be nested to create a hierarchy of commands</span>
+
+<span class="sd">    :param str name: The name of the interpreter command</span>
+<span class="sd">    :param str description: Overrides the default description of &quot;interpet subcommands&quot;</span>
+<span class="sd">    :param list commands: List of commands to contain within the interpreter</span>
+
+<span class="sd">    Example:</span>
+
+<span class="sd">    .. testcode::</span>
+
+<span class="sd">        from simpleCli import base, interpreter, echo</span>
+
+<span class="sd">        command = interpreter.Command(</span>
+<span class="sd">            name=None,</span>
+<span class="sd">            commands=[</span>
+<span class="sd">                echo.Command(),</span>
+<span class="sd">                interpreter.Command(</span>
+<span class="sd">                    name=&quot;Outer&quot;,</span>
+<span class="sd">                    commands=[</span>
+<span class="sd">                        echo.Command(),</span>
+<span class="sd">                        interpreter.Command(</span>
+<span class="sd">                            name=&quot;Inner&quot;,</span>
+<span class="sd">                            commands=[</span>
+<span class="sd">                                echo.Command()</span>
+<span class="sd">                            ]</span>
+<span class="sd">                        )</span>
+<span class="sd">                    ]</span>
+<span class="sd">                )</span>
+<span class="sd">            ]</span>
+<span class="sd">        )</span>
+
+<span class="sd">        # Normally you&#39;d do this with *sys.argv[1:]</span>
+<span class="sd">        command.do(&quot;echo&quot;, &quot;TEST (root)&quot;)</span>
+<span class="sd">        command.do(&quot;outer&quot;, &quot;echo&quot;, &quot;TEST (outer)&quot;)</span>
+<span class="sd">        command.do(&quot;outer&quot;, &quot;inner&quot;, &quot;echo&quot;, &quot;TEST (inner)&quot;)</span>
+
+<span class="sd">    Output:</span>
+
+<span class="sd">    .. testoutput::</span>
+
+<span class="sd">        TEST (root)</span>
+<span class="sd">        TEST (outer)</span>
+<span class="sd">        TEST (inner)</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">commands</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="k">assert</span> <span class="n">commands</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+        <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">commands</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span>
+        <span class="k">assert</span> <span class="n">commands</span> <span class="o">!=</span> <span class="p">[]</span>
+
         <span class="k">if</span> <span class="n">name</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">name</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
 
+        <span class="k">if</span> <span class="n">description</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">description</span> <span class="o">=</span> <span class="s2">&quot;Interpret subcommands&quot;</span>
+
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
             <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span>
-            <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Run subcommands...&quot;</span><span class="p">)</span>
+            <span class="n">description</span><span class="o">=</span><span class="n">description</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">commands</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">args</span><span class="p">:</span>
-            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="n">BaseCommand</span><span class="p">):</span>
-                <span class="n">item</span><span class="o">.</span><span class="n">stackAppendleft</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cmd</span><span class="p">)</span> <span class="c1"># Insert the interpreter into the command&#39;s stack</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">commands</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">item</span><span class="o">.</span><span class="n">cmd</span><span class="p">:</span> <span class="n">item</span><span class="p">})</span>
+        <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">commands</span><span class="p">:</span>
+            <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="n">base</span><span class="o">.</span><span class="n">Command</span><span class="p">)</span>
+            <span class="n">item</span><span class="o">.</span><span class="n">stackAppendleft</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cmd</span><span class="p">)</span> <span class="c1"># Insert the interpreter into the command&#39;s stack</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">commands</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">item</span><span class="o">.</span><span class="n">cmd</span><span class="p">:</span> <span class="n">item</span><span class="p">})</span>
 
-<div class="viewcode-block" id="InterpreterCommand.initParser"><a class="viewcode-back" href="../../tests.html#simpleCli.interpreter.InterpreterCommand.initParser">[docs]</a>    <span class="k">def</span> <span class="nf">initParser</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Command.initParser"><a class="viewcode-back" href="../../tests.html#simpleCli.interpreter.Command.initParser">[docs]</a>    <span class="k">def</span> <span class="nf">initParser</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">initParser</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
             <span class="s2">&quot;-l&quot;</span><span class="p">,</span> <span class="s2">&quot;--list&quot;</span><span class="p">,</span>
@@ -79,7 +130,7 @@
             <span class="n">nargs</span><span class="o">=</span><span class="n">argparse</span><span class="o">.</span><span class="n">REMAINDER</span><span class="p">,</span>
             <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Arguments to &lt;command&gt;&quot;</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="InterpreterCommand.call"><a class="viewcode-back" href="../../tests.html#simpleCli.interpreter.InterpreterCommand.call">[docs]</a>    <span class="k">def</span> <span class="nf">call</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cmd</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
+<div class="viewcode-block" id="Command.call"><a class="viewcode-back" href="../../tests.html#simpleCli.interpreter.Command.call">[docs]</a>    <span class="k">def</span> <span class="nf">call</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cmd</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Call member command &lt;cmd&gt; with *args</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -91,7 +142,7 @@
         <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">CliException</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{}</span><span class="s2">: Command not found&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">cmd</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="InterpreterCommand.printList"><a class="viewcode-back" href="../../tests.html#simpleCli.interpreter.InterpreterCommand.printList">[docs]</a>    <span class="k">def</span> <span class="nf">printList</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
+<div class="viewcode-block" id="Command.printList"><a class="viewcode-back" href="../../tests.html#simpleCli.interpreter.Command.printList">[docs]</a>    <span class="k">def</span> <span class="nf">printList</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Print the list of commands that the interpreter has</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -108,7 +159,7 @@
             <span class="k">else</span><span class="p">:</span>
                 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{}{}</span><span class="s2">: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">prefix</span><span class="p">,</span> <span class="n">cmd</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">description</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="InterpreterCommand.do"><a class="viewcode-back" href="../../tests.html#simpleCli.interpreter.InterpreterCommand.do">[docs]</a>    <span class="k">def</span> <span class="nf">do</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
+<div class="viewcode-block" id="Command.do"><a class="viewcode-back" href="../../tests.html#simpleCli.interpreter.Command.do">[docs]</a>    <span class="k">def</span> <span class="nf">do</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
         <span class="n">opts</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">opts</span><span class="o">.</span><span class="n">list</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">printList</span><span class="p">()</span>
