@@ -3,14 +3,14 @@
 simpleCli.echo
 """
 
-from .base import BaseCommand
+from . import base
 
-class EchoCommand(BaseCommand):
+class Command(base.Command):
     """
     Simple echo command (for demonstration purposes)
     """
 
-    def __init__(self, *args):
+    def __init__(self):
         super().__init__(
             name="Echo",
             description="Print the input to the terminal")

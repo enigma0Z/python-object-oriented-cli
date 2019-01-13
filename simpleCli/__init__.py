@@ -3,4 +3,6 @@
 simpleCli
 """
 
-from .base import BaseCommand
+__all__ = [
+    "base", "interpreter"
+]

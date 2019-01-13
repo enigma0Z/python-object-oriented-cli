@@ -7,7 +7,7 @@ from argparse import ArgumentParser
 from collections import deque
 from .exceptions import NotImplementedException
 
-class BaseCommand:
+class Command:
     """
     Base class for CLI classes.  Realistically, this really doesn't do anything other than
     establish basic metadata for the class and provide structure for subclasses to follow
@@ -18,9 +18,11 @@ class BaseCommand:
     .. testsetup:: *
 
         from collections import deque
-        from simpleCli.base import BaseCommand
+
+        from simpleCli import base
         from simpleCli.exceptions import *
-        baseCommand = BaseCommand(
+
+        baseCommand = base.Command(
             name="Test",
             description="Description")
 
@@ -35,25 +37,26 @@ class BaseCommand:
 
     """
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, name=None, description=None, cmd=None, stack=None):
         #pylint: disable=unused-argument
 
-        self.name = kwargs['name']
+        assert name is not None
+
+        self.name = name
         self.stack = deque([])
 
-        if "stack" in kwargs:
-            self.stack.append(kwargs['stack'])
+        if stack is not None:
+            self.stack.append(stack)
 
-        if "cmd" not in kwargs:
-            self.cmd = kwargs['name'].lower()
+        if cmd is None:
+            self.cmd = name.lower()
         else:
-            self.cmd = kwargs['cmd']
+            self.cmd = cmd
 
-        if self.cmd is not None:
-            self.stack.append(self.cmd)
+        self.stack.append(self.cmd)
 
-        if "description" in kwargs:
-            self.description = kwargs['description']
+        if description is not None:
+            self.description = description
         else:
             self.description = None
 
