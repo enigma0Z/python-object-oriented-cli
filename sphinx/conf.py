@@ -19,7 +19,7 @@
 
 # -- Project information -----------------------------------------------------
 
-project = 'Simple CLI'
+project = 'Object Oriented CLI'
 copyright = '2019, Johnathan Bell'
 author = 'Johnathan Bell'
 
@@ -109,7 +109,7 @@ html_static_path = ['_static']
 # -- Options for HTMLHelp output ---------------------------------------------
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = 'Simple CLIdoc'
+htmlhelp_basename = 'Object Oriented CLIdoc'
 
 
 # -- Options for LaTeX output ------------------------------------------------
@@ -136,7 +136,7 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-    (master_doc, 'Simple CLI.tex', 'Simple CLI Documentation',
+    (master_doc, 'Object Oriented CLI.tex', 'Object Oriented CLI Documentation',
      'Johnathan Bell', 'manual'),
 ]
 
@@ -146,7 +146,7 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    (master_doc, 'unpack', 'Simple CLI Documentation',
+    (master_doc, 'unpack', 'Object Oriented CLI Documentation',
      [author], 1)
 ]
 
@@ -157,8 +157,8 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-    (master_doc, 'Simple CLI', 'Simple CLI Documentation',
-     author, 'Simple CLI', 'One line description of project.',
+    (master_doc, 'Object Oriented CLI', 'Object Oriented CLI Documentation',
+     author, 'Object Oriented CLI', 'One line description of project.',
      'Miscellaneous'),
 ]
 
