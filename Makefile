@@ -16,7 +16,7 @@ clean: clean_code clean_doc
 clean_code:
 	@find . -type f -iname '*.pyc' -exec rm {} \; 2>/dev/null && false || echo ".pyc files cleaned"
 	@find . -type d -iname '__pycache__' -exec rmdir {} \; 2>/dev/null && false || echo "__pycache__ directories cleaned"
-	@rm -rf build dist python*.egg-info && false || echo "Build artifacts cleaned"
+	@rm -rf build dist *.egg-info && false || echo "Build artifacts cleaned"
 
 clean_doc:
 	@rm -rf $(SPHINX_BUILD)/.doctrees $(SPHINX_BUILD)/doctest $(SPHINX_BUILD)/doctrees && false || echo "Docs cleaned"
@@ -25,7 +25,7 @@ package:
 	$(PYTHON) setup.py sdist bdist_wheel
 
 publish:
-	$(TWINE) upload --repository-url $(PYPI_URL) dist/*
+	$(TWINE) upload dist/*
 
 doc: 
 	$(SPHINX) -b html "$(SPHINX_SOURCE)" "$(SPHINX_BUILD)" $(SPHINXOPTS)
