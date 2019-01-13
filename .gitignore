@@ -6,3 +6,4 @@ build
 doctest
 .doctrees
 doctrees
+.vscode/launch.json
