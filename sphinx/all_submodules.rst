@@ -1,4 +1,4 @@
-Run DocTests
+All Submodules
 ======================================
 
 .. automodule:: simpleCli.base
@@ -8,4 +8,7 @@ Run DocTests
     :members:
 
 .. automodule:: simpleCli.interpreter
+    :members:
+
+.. automodule:: simpleCli.entrypoint
     :members:
