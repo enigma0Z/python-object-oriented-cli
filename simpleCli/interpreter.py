@@ -5,27 +5,78 @@ simpleCli.interpreter
 
 import sys
 import argparse
-from .base import BaseCommand
+from . import base
 from .exceptions import CliException
 
-class InterpreterCommand(BaseCommand):
+class Command(base.Command):
     """
-    Interprets commands given (by, for example, sys.argv[]) into running subcommands in classes
+    Interprets commands given (by, for example, sys.argv[]) into running subcommands in classes.
+    Can be nested to create a hierarchy of commands
+
+    :param str name: The name of the interpreter command
+    :param str description: Overrides the default description of "interpet subcommands"
+    :param list commands: List of commands to contain within the interpreter
+
+    Example:
+
+    .. testcode::
+
+        from simpleCli import base, interpreter, echo
+
+        command = interpreter.Command(
+            name=None,
+            commands=[
+                echo.Command(),
+                interpreter.Command(
+                    name="Outer",
+                    commands=[
+                        echo.Command(),
+                        interpreter.Command(
+                            name="Inner",
+                            commands=[
+                                echo.Command()
+                            ]
+                        )
+                    ]
+                )
+            ]
+        )
+
+        # Normally you'd do this with *sys.argv[1:]
+        command.do("echo", "TEST (root)")
+        command.do("outer", "echo", "TEST (outer)")
+        command.do("outer", "inner", "echo", "TEST (inner)")
+
+    Output:
+
+    .. testoutput::
+
+        TEST (root)
+        TEST (outer)
+        TEST (inner)
+
     """
 
-    def __init__(self, name, *args, **kwargs):
+    def __init__(self, name=None, description=None, commands=None):
+        assert commands is not None
+        assert isinstance(commands, list)
+        assert commands != []
+
         if name is None:
             name = sys.argv[0].split("/")[-1]
 
+        if description is None:
+            description = "Interpret subcommands"
+
         super().__init__(
             name=name,
-            description="Run subcommands...")
+            description=description)
 
         self.commands = {}
-        for item in args:
-            if isinstance(item, BaseCommand):
-                item.stackAppendleft(self.cmd) # Insert the interpreter into the command's stack
-                self.commands.update({item.cmd: item})
+        for item in commands:
+            assert isinstance(item, base.Command)
+            item.stackAppendleft(self.cmd) # Insert the interpreter into the command's stack
+            self.commands.update({item.cmd: item})
 
     def initParser(self):
         super().initParser()
