@@ -9,12 +9,12 @@ README = (HERE / "README.md").read_text()
 
 # This call to setup() does all the work
 setup(
-    name="oocli",
+    name="oo-cli",
     version="0.0.3",
-    description="Simple CLI",
+    description="Object Oriented CLI",
     long_description=README,
     long_description_content_type="text/markdown",
-    url="https://github.com/enigma0Z/python-simple-cli.git",
+    url="https://github.com/enigma0Z/python-object-oriented-cli.git",
     author="Johnathan Bell",
     author_email="enigma.0Z@gmail.com",
     license="MIT",
