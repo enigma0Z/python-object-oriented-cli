@@ -1,6 +1,11 @@
 #!/usr/bin/env python3
 """
-Quick & simple example of the built in command classes:
+Simple Example
+--------------
+
+Quick & simple example of the built in command classes.
+
+Usage::
 
     $ ./simple.py --help
     <help text>
@@ -18,24 +23,25 @@ Quick & simple example of the built in command classes:
 
 from oocli import interpreter, echo, entrypoint
 
-entrypoint.Command(
-    "oocli example",
-    interpreter.Command(
-        name=None,
-        commands=[
-            echo.Command(),
-            interpreter.Command(
-                name="Outer",
-                commands=[
-                    echo.Command(),
-                    interpreter.Command(
-                        name="Inner",
-                        commands=[
-                            echo.Command()
-                        ]
-                    )
-                ]
-            )
-        ]
-    )
-).do()
+if __name__ == "__main__":
+    entrypoint.Command(
+        "oocli example",
+        interpreter.Command(
+            name=None,
+            commands=[
+                echo.Command(),
+                interpreter.Command(
+                    name="Outer",
+                    commands=[
+                        echo.Command(),
+                        interpreter.Command(
+                            name="Inner",
+                            commands=[
+                                echo.Command()
+                            ]
+                        )
+                    ]
+                )
+            ]
+        )
+    ).do()

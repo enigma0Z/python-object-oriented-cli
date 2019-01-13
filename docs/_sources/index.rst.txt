@@ -11,6 +11,7 @@ Welcome to Simple CLI's documentation!
    :caption: Contents:
 
    all_submodules.rst
+   examples.rst
 
 Indices and tables
 ==================

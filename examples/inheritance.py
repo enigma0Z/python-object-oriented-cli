@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """
-Example using inheritance
+Inheritence example
+-------------------
 """
 
 import sys
@@ -26,6 +27,7 @@ class Re(base.Command):
         self._parser.add_argument("string", help="The thing to compare against")
 
     def do(self, *args):
+        "Run re.match with the first arg as the regex, and the second arg as the string to compare"
         opts = self.parse(*args)
         return re.match(opts.regex, opts.string)
 
@@ -45,6 +47,12 @@ class Cmp(base.Command):
         self._parser.add_argument("string", help="The thing to compare against")
 
     def do(self, *args):
+        """
+        Compare the two args given in the command
+
+        :param str compare: The string to compare (left side of equals comparator)
+        :param str string: The string to compare against (right side of equals comparator)
+        """
         opts = self.parse(*args)
         return opts.compare == opts.string
 
@@ -65,4 +73,5 @@ class Entrypoint(entrypoint.Command):
             )
         )
 
-Entrypoint().do()
+if __name__ == "__main__":
+    Entrypoint().do()
