@@ -1,4 +1,4 @@
-TARGETS ?= simpleCli
+TARGETS ?= oocli examples
 
 PYTHON ?= python3
 TWINE ?= $(PYTHON) -m twine

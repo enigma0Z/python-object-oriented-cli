@@ -6,6 +6,7 @@ Example using inheritance
 import sys
 import re
 
+#pylint: disable=wrong-import-position
 sys.path.append("../")
 from oocli import interpreter, base, entrypoint
 

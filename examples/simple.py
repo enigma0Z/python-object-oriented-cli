@@ -14,8 +14,8 @@ Quick & simple example of the built in command classes:
 
     $ ./simple.py echo "test"
     test
-    
 """
+
 from oocli import interpreter, echo, entrypoint
 
 entrypoint.Command(
@@ -39,4 +39,3 @@ entrypoint.Command(
         ]
     )
 ).do()
-

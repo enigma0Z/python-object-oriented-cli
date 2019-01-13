@@ -137,3 +137,5 @@ class Command(base.Command):
                 print(exception)
                 self._parser.print_help()
                 sys.exit(1)
+
+        return True
