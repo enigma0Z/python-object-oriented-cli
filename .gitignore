@@ -1,8 +1,8 @@
 *.pyc
 __pycache__
-python*.egg-info
-dist/*
-build/*
+*.egg-info
+dist
+build
 doctest
 .doctrees
 doctrees
