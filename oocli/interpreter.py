@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-simpleCli.interpreter
+oocli.interpreter
 ---------------------
 """
 
@@ -22,7 +22,7 @@ class Command(base.Command):
 
     .. testcode::
 
-        from simpleCli import base, interpreter, echo
+        from oocli import base, interpreter, echo
 
         command = interpreter.Command(
             name=None,

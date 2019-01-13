@@ -9,8 +9,8 @@ README = (HERE / "README.md").read_text()
 
 # This call to setup() does all the work
 setup(
-    name="python-simple-cli",
-    version="0.0.2",
+    name="oocli",
+    version="0.0.3",
     description="Simple CLI",
     long_description=README,
     long_description_content_type="text/markdown",
@@ -23,7 +23,7 @@ setup(
         "Programming Language :: Python :: 3",
         "Programming Language :: Python :: 3.6"
     ],
-    packages=["SimpleCli"],
+    packages=["oocli"],
     include_package_data=True,
     install_requires=[""],
     entry_points={}

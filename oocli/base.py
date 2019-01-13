@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-simpleCli.base
+oocli.base
 --------------
 """
 
@@ -20,8 +20,8 @@ class Command:
 
         from collections import deque
 
-        from simpleCli import base
-        from simpleCli.exceptions import *
+        from oocli import base
+        from oocli.exceptions import *
 
         baseCommand = base.Command(
             name="Test",
