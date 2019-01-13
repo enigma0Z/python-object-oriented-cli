@@ -102,7 +102,7 @@ class Command(base.Command):
         """
         try:
             assert cmd is not None
-            self.commands[cmd].do(*args)
+            return self.commands[cmd].do(*args)
         except AssertionError:
             raise CliException("You must specify a command to run")
         except KeyError:
@@ -132,7 +132,7 @@ class Command(base.Command):
 
         else:
             try:
-                self.call(opts.cmd, *opts.args)
+                return self.call(opts.cmd, *opts.args)
             except CliException as exception:
                 print(exception)
                 self._parser.print_help()
