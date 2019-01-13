@@ -7,3 +7,4 @@ doctest
 .doctrees
 doctrees
 .vscode/launch.json
+.vscode/settings.json
