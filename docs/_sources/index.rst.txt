@@ -10,7 +10,7 @@ Welcome to Simple CLI's documentation!
    :maxdepth: 2
    :caption: Contents:
 
-   tests.rst
+   all_submodules.rst
 
 Indices and tables
 ==================
