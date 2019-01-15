@@ -58,11 +58,7 @@ class Command(base.Command):
 
     """
 
-    def __init__(self, name=None, description=None, commands=None):
-        assert commands is not None
-        assert isinstance(commands, list)
-        assert commands != []
-
+    def __init__(self, name=None, cmd=None, description=None, commands=None, stack=None):
         if name is None:
             name = sys.argv[0].split("/")[-1]
 
@@ -71,13 +67,24 @@ class Command(base.Command):
 
         super().__init__(
             name=name,
-            description=description)
+            cmd=cmd,
+            description=description,
+            stack=stack)
 
         self.commands = {}
-        for item in commands:
+        if commands is not None and isinstance(commands, list):
+            self.add(commands)
+
+    def _constructorDict(self):
+        return super()._constructorDict()
+
+    def add(self, *args):
+        for item in args:
             assert isinstance(item, base.Command)
-            item.stackAppendleft(self.cmd) # Insert the interpreter into the command's stack
+            item.stackAppendleft(self.cmd)
             self.commands.update({item.cmd: item})
+            if isinstance(item, Command):
+                self.__dict__.update({item.cmd: item})
 
     def initParser(self):
         super().initParser()
@@ -113,7 +120,7 @@ class Command(base.Command):
         Print the list of commands that the interpreter has
         """
         for cmd, obj in self.commands.items():
-            if isinstance(obj, self.__class__):
+            if isinstance(obj, Command):
                 print(prefix + obj.cmd + ": " + obj.description)
                 if prefix == "":
                     newprefix = "- "

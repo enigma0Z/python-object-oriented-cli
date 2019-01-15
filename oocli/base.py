@@ -44,17 +44,20 @@ class Command:
         assert name is not None
 
         self.name = name
-        self.stack = deque([])
 
-        if stack is not None:
-            self.stack.append(stack)
+        if isinstance(stack, deque):
+            self._stack = stack
+        else:
+            self._stack = deque([])
+            if stack is not None:
+                self._stack.append(stack)
 
         if cmd is None:
             self.cmd = name.lower()
         else:
             self.cmd = cmd
 
-        self.stack.append(self.cmd)
+        self._stack.append(self.cmd)
 
         if description is not None:
             self.description = description
@@ -63,6 +66,12 @@ class Command:
 
         self.initParser()
 
+    def __call__(self, *args, **kwargs):
+        return args[0](**self._constructorDict())
+
+    def _constructorDict(self):
+        return dict(filter(lambda x: not x[0].startswith("_"), self.__dict__.items()))
+
     def initParser(self):
         """
         Initalize the argument parser.  Subclasses should define any arguments for the command
@@ -70,17 +79,17 @@ class Command:
         stack gets changed, everything is updated correctly.
         """
         self._parser = ArgumentParser(
-            prog=" ".join(self.stack),
+            prog=" ".join(self._stack),
             description=self.description)
 
     def stackAppendleft(self, value):
         """
-        Updates self.stack by prepending value to the list and re-initalizing the parser
+        Updates self._stack by prepending value to the list and re-initalizing the parser
         If you create a subclass that contains other commands (like the Interpreter class)
 
         :param str value: The item to prepend (deque.appendleft()) to the stack
         """
-        self.stack.appendleft(value)
+        self._stack.appendleft(value)
         self.initParser()
 
     def parse(self, *args):
