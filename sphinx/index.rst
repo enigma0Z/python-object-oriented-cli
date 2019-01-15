@@ -3,8 +3,8 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to Simple CLI's documentation!
-======================================
+Python Object-oriented CLI
+==========================
 
 .. toctree::
    :maxdepth: 2
