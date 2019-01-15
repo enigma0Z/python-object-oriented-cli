@@ -1,0 +1,373 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>All Submodules &#8212; Object Oriented CLI  documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Examples" href="examples.html" />
+    <link rel="prev" title="Welcome to Simple CLI’s documentation!" href="index.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="module-oocli.base">
+<span id="all-submodules"></span><h1>All Submodules<a class="headerlink" href="#module-oocli.base" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="oocli-base">
+<h2>oocli.base<a class="headerlink" href="#oocli-base" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="oocli.base.Command">
+<em class="property">class </em><code class="descclassname">oocli.base.</code><code class="descname">Command</code><span class="sig-paren">(</span><em>name=None</em>, <em>description=None</em>, <em>cmd=None</em>, <em>stack=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/oocli/base.html#Command"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#oocli.base.Command" title="Permalink to this definition">¶</a></dt>
+<dd><p>Base class for CLI classes.  Realistically, this really doesn’t do anything other than
+establish basic metadata for the class and provide structure for subclasses to follow</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>name</strong> (<em>str</em>) – The name of the command</li>
+<li><strong>cmd</strong> (<em>str</em>) – The command text of the command.  If absent, it defaults to name.lower()</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="oocli.base.Command.do">
+<code class="descname">do</code><span class="sig-paren">(</span><em>*args</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/oocli/base.html#Command.do"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#oocli.base.Command.do" title="Permalink to this definition">¶</a></dt>
+<dd><p>Execute the command (not implemented in BaseCommand)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>args</strong> – Sequential arguments passed from the CLI</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="oocli.base.Command.initParser">
+<code class="descname">initParser</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/oocli/base.html#Command.initParser"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#oocli.base.Command.initParser" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initalize the argument parser.  Subclasses should define any arguments for the command
+in this method. If you subclass this class, define your parser args here so that if the
+stack gets changed, everything is updated correctly.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="oocli.base.Command.parse">
+<code class="descname">parse</code><span class="sig-paren">(</span><em>*args</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/oocli/base.html#Command.parse"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#oocli.base.Command.parse" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parse arguments through self._parser</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>args</strong> – Sequential arguments to pass through the parser</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="oocli.base.Command.stackAppendleft">
+<code class="descname">stackAppendleft</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/oocli/base.html#Command.stackAppendleft"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#oocli.base.Command.stackAppendleft" title="Permalink to this definition">¶</a></dt>
+<dd><p>Updates self._stack by prepending value to the list and re-initalizing the parser
+If you create a subclass that contains other commands (like the Interpreter class)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>value</strong> (<em>str</em>) – The item to prepend (deque.appendleft()) to the stack</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<span class="target" id="module-oocli.echo"></span><div class="section" id="oocli-echo">
+<h2>oocli.echo<a class="headerlink" href="#oocli-echo" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="oocli.echo.Command">
+<em class="property">class </em><code class="descclassname">oocli.echo.</code><code class="descname">Command</code><a class="reference internal" href="_modules/oocli/echo.html#Command"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#oocli.echo.Command" title="Permalink to this definition">¶</a></dt>
+<dd><p>Simple echo command (for demonstration purposes)</p>
+<dl class="method">
+<dt id="oocli.echo.Command.do">
+<code class="descname">do</code><span class="sig-paren">(</span><em>*args</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/oocli/echo.html#Command.do"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#oocli.echo.Command.do" title="Permalink to this definition">¶</a></dt>
+<dd><p>Execute the command (not implemented in BaseCommand)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>args</strong> – Sequential arguments passed from the CLI</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="oocli.echo.Command.initParser">
+<code class="descname">initParser</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/oocli/echo.html#Command.initParser"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#oocli.echo.Command.initParser" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initalize the argument parser.  Subclasses should define any arguments for the command
+in this method. If you subclass this class, define your parser args here so that if the
+stack gets changed, everything is updated correctly.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<span class="target" id="module-oocli.interpreter"></span><div class="section" id="oocli-interpreter">
+<h2>oocli.interpreter<a class="headerlink" href="#oocli-interpreter" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="oocli.interpreter.Command">
+<em class="property">class </em><code class="descclassname">oocli.interpreter.</code><code class="descname">Command</code><span class="sig-paren">(</span><em>name=None</em>, <em>cmd=None</em>, <em>description=None</em>, <em>commands=None</em>, <em>stack=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/oocli/interpreter.html#Command"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#oocli.interpreter.Command" title="Permalink to this definition">¶</a></dt>
+<dd><p>Interprets commands given (by, for example, sys.argv[]) into running subcommands in classes.
+Can be nested to create a hierarchy of commands</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>name</strong> (<em>str</em>) – The name of the interpreter command</li>
+<li><strong>description</strong> (<em>str</em>) – Overrides the default description of “interpet subcommands”</li>
+<li><strong>commands</strong> (<em>list</em>) – List of commands to contain within the interpreter</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Example:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">command</span> <span class="o">=</span> <span class="n">interpreter</span><span class="o">.</span><span class="n">Command</span><span class="p">(</span>
+    <span class="n">name</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+    <span class="n">commands</span><span class="o">=</span><span class="p">[</span>
+        <span class="n">echo</span><span class="o">.</span><span class="n">Command</span><span class="p">(),</span>
+        <span class="n">interpreter</span><span class="o">.</span><span class="n">Command</span><span class="p">(</span>
+            <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Outer&quot;</span><span class="p">,</span>
+            <span class="n">commands</span><span class="o">=</span><span class="p">[</span>
+                <span class="n">echo</span><span class="o">.</span><span class="n">Command</span><span class="p">(),</span>
+                <span class="n">interpreter</span><span class="o">.</span><span class="n">Command</span><span class="p">(</span>
+                    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Inner&quot;</span><span class="p">,</span>
+                    <span class="n">commands</span><span class="o">=</span><span class="p">[</span>
+                        <span class="n">echo</span><span class="o">.</span><span class="n">Command</span><span class="p">()</span>
+                    <span class="p">]</span>
+                <span class="p">)</span>
+            <span class="p">]</span>
+        <span class="p">)</span>
+    <span class="p">]</span>
+<span class="p">)</span>
+
+<span class="c1"># Normally you&#39;d do this with *sys.argv[1:]</span>
+<span class="n">command</span><span class="o">.</span><span class="n">do</span><span class="p">(</span><span class="s2">&quot;echo&quot;</span><span class="p">,</span> <span class="s2">&quot;TEST (root)&quot;</span><span class="p">)</span>
+<span class="n">command</span><span class="o">.</span><span class="n">do</span><span class="p">(</span><span class="s2">&quot;outer&quot;</span><span class="p">,</span> <span class="s2">&quot;echo&quot;</span><span class="p">,</span> <span class="s2">&quot;TEST (outer)&quot;</span><span class="p">)</span>
+<span class="n">command</span><span class="o">.</span><span class="n">do</span><span class="p">(</span><span class="s2">&quot;outer&quot;</span><span class="p">,</span> <span class="s2">&quot;inner&quot;</span><span class="p">,</span> <span class="s2">&quot;echo&quot;</span><span class="p">,</span> <span class="s2">&quot;TEST (inner)&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Output:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>TEST (root)
+TEST (outer)
+TEST (inner)
+</pre></div>
+</div>
+<dl class="method">
+<dt id="oocli.interpreter.Command.add">
+<code class="descname">add</code><span class="sig-paren">(</span><em>*args</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/oocli/interpreter.html#Command.add"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#oocli.interpreter.Command.add" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a command to the interpreter.  Can be used as a &#64;decorator or called directly</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>args</strong> – The commands to be added.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body">AssertionException</td>
+</tr>
+</tbody>
+</table>
+<p>Instances:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">rootCmd</span> <span class="o">=</span> <span class="n">interpreter</span><span class="o">.</span><span class="n">Command</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;root&quot;</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;root command&quot;</span><span class="p">)</span>
+<span class="n">echoCmd</span> <span class="o">=</span> <span class="n">echo</span><span class="o">.</span><span class="n">Command</span><span class="p">()</span>
+<span class="n">rootCmd</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">echoCmd</span><span class="p">)</span>
+<span class="n">rootCmd</span><span class="o">.</span><span class="n">do</span><span class="p">(</span><span class="s2">&quot;echo&quot;</span><span class="p">,</span> <span class="s2">&quot;test&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Output:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>test
+</pre></div>
+</div>
+<p>Annotations:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@interpreter.Command</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;root&quot;</span><span class="p">,</span> <span class="n">description</span> <span class="o">=</span> <span class="s2">&quot;root command&quot;</span><span class="p">)</span>
+<span class="k">class</span> <span class="nc">rootCmd</span><span class="p">(</span><span class="n">interpreter</span><span class="o">.</span><span class="n">Command</span><span class="p">):</span>
+    <span class="c1"># Do subClass stuff here</span>
+    <span class="k">pass</span>
+
+<span class="nd">@rootCmd.add</span>
+<span class="nd">@echo.Command</span><span class="p">()</span>
+<span class="k">class</span> <span class="nc">echoCmd</span><span class="p">(</span><span class="n">echo</span><span class="o">.</span><span class="n">Command</span><span class="p">):</span>
+   <span class="k">pass</span>
+
+<span class="n">rootCmd</span><span class="o">.</span><span class="n">do</span><span class="p">(</span><span class="s2">&quot;echo&quot;</span><span class="p">,</span> <span class="s2">&quot;test&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Output:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>test
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="oocli.interpreter.Command.call">
+<code class="descname">call</code><span class="sig-paren">(</span><em>cmd</em>, <em>*args</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/oocli/interpreter.html#Command.call"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#oocli.interpreter.Command.call" title="Permalink to this definition">¶</a></dt>
+<dd><p>Call member command &lt;cmd&gt; with args</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="oocli.interpreter.Command.do">
+<code class="descname">do</code><span class="sig-paren">(</span><em>*args</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/oocli/interpreter.html#Command.do"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#oocli.interpreter.Command.do" title="Permalink to this definition">¶</a></dt>
+<dd><p>Execute the command (not implemented in BaseCommand)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>args</strong> – Sequential arguments passed from the CLI</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="oocli.interpreter.Command.initParser">
+<code class="descname">initParser</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/oocli/interpreter.html#Command.initParser"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#oocli.interpreter.Command.initParser" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initalize the argument parser.  Subclasses should define any arguments for the command
+in this method. If you subclass this class, define your parser args here so that if the
+stack gets changed, everything is updated correctly.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="oocli.interpreter.Command.printList">
+<code class="descname">printList</code><span class="sig-paren">(</span><em>prefix=''</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/oocli/interpreter.html#Command.printList"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#oocli.interpreter.Command.printList" title="Permalink to this definition">¶</a></dt>
+<dd><p>Print the list of commands that the interpreter has</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<span class="target" id="module-oocli.entrypoint"></span><div class="section" id="oocli-entrypoint">
+<h2>oocli.entrypoint<a class="headerlink" href="#oocli-entrypoint" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="oocli.entrypoint.Command">
+<em class="property">class </em><code class="descclassname">oocli.entrypoint.</code><code class="descname">Command</code><span class="sig-paren">(</span><em>description=None</em>, <em>command=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/oocli/entrypoint.html#Command"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#oocli.entrypoint.Command" title="Permalink to this definition">¶</a></dt>
+<dd><p>Entrypoint - Defines the entrypoint for your program and processes sys.argv into said entrypoint</p>
+<dl class="method">
+<dt id="oocli.entrypoint.Command.do">
+<code class="descname">do</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/oocli/entrypoint.html#Command.do"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#oocli.entrypoint.Command.do" title="Permalink to this definition">¶</a></dt>
+<dd><p>Execute the entrypoint command’s .do() method, and translate bool return values
+for Linux’s sanity (0 is true, 1 is false).</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">Object Oriented CLI</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">All Submodules</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#oocli-base">oocli.base</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#oocli-echo">oocli.echo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#oocli-interpreter">oocli.interpreter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#oocli-entrypoint">oocli.entrypoint</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="index.html" title="previous chapter">Welcome to Simple CLI’s documentation!</a></li>
+      <li>Next: <a href="examples.html" title="next chapter">Examples</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2019, Johnathan Bell.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/submodules.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

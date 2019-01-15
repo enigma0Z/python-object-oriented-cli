@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>simpleCli.base &#8212; Object Oriented CLI  documentation</title>
+    <title>oocli.base &#8212; Object Oriented CLI  documentation</title>
     <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
     <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
@@ -32,10 +32,10 @@
 
           <div class="body" role="main">
             
-  <h1>Source code for simpleCli.base</h1><div class="highlight"><pre>
+  <h1>Source code for oocli.base</h1><div class="highlight"><pre>
 <span></span><span class="ch">#!/usr/bin/env python3</span>
 <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">simpleCli.base</span>
+<span class="sd">oocli.base</span>
 <span class="sd">--------------</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
@@ -43,7 +43,7 @@
 <span class="kn">from</span> <span class="nn">collections</span> <span class="k">import</span> <span class="n">deque</span>
 <span class="kn">from</span> <span class="nn">.exceptions</span> <span class="k">import</span> <span class="n">NotImplementedException</span>
 
-<div class="viewcode-block" id="Command"><a class="viewcode-back" href="../../all_submodules.html#simpleCli.base.Command">[docs]</a><span class="k">class</span> <span class="nc">Command</span><span class="p">:</span>
+<div class="viewcode-block" id="Command"><a class="viewcode-back" href="../../submodules.html#oocli.base.Command">[docs]</a><span class="k">class</span> <span class="nc">Command</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Base class for CLI classes.  Realistically, this really doesn&#39;t do anything other than</span>
 <span class="sd">    establish basic metadata for the class and provide structure for subclasses to follow</span>
@@ -55,8 +55,8 @@
 
 <span class="sd">        from collections import deque</span>
 
-<span class="sd">        from simpleCli import base</span>
-<span class="sd">        from simpleCli.exceptions import *</span>
+<span class="sd">        from oocli import base</span>
+<span class="sd">        from oocli.exceptions import *</span>
 
 <span class="sd">        baseCommand = base.Command(</span>
 <span class="sd">            name=&quot;Test&quot;,</span>
@@ -69,7 +69,7 @@
 <span class="sd">        assert baseCommand.name == &quot;Test&quot;</span>
 <span class="sd">        assert baseCommand.cmd == &quot;test&quot;</span>
 <span class="sd">        assert baseCommand.description == &quot;Description&quot;</span>
-<span class="sd">        assert baseCommand.stack == deque([&quot;test&quot;])</span>
+<span class="sd">        assert baseCommand._stack == deque([&quot;test&quot;])</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -79,17 +79,20 @@
         <span class="k">assert</span> <span class="n">name</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">stack</span> <span class="o">=</span> <span class="n">deque</span><span class="p">([])</span>
 
-        <span class="k">if</span> <span class="n">stack</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">stack</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">stack</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">stack</span><span class="p">,</span> <span class="n">deque</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_stack</span> <span class="o">=</span> <span class="n">stack</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_stack</span> <span class="o">=</span> <span class="n">deque</span><span class="p">([])</span>
+            <span class="k">if</span> <span class="n">stack</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_stack</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">stack</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">cmd</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">cmd</span> <span class="o">=</span> <span class="n">name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">cmd</span> <span class="o">=</span> <span class="n">cmd</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">stack</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cmd</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_stack</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cmd</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">description</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">description</span> <span class="o">=</span> <span class="n">description</span>
@@ -98,27 +101,33 @@
 
         <span class="bp">self</span><span class="o">.</span><span class="n">initParser</span><span class="p">()</span>
 
-<div class="viewcode-block" id="Command.initParser"><a class="viewcode-back" href="../../all_submodules.html#simpleCli.base.Command.initParser">[docs]</a>    <span class="k">def</span> <span class="nf">initParser</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">](</span><span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">_constructorDict</span><span class="p">())</span>
+
+    <span class="k">def</span> <span class="nf">_constructorDict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="ow">not</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">items</span><span class="p">()))</span>
+
+<div class="viewcode-block" id="Command.initParser"><a class="viewcode-back" href="../../submodules.html#oocli.base.Command.initParser">[docs]</a>    <span class="k">def</span> <span class="nf">initParser</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Initalize the argument parser.  Subclasses should define any arguments for the command</span>
 <span class="sd">        in this method. If you subclass this class, define your parser args here so that if the</span>
 <span class="sd">        stack gets changed, everything is updated correctly.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_parser</span> <span class="o">=</span> <span class="n">ArgumentParser</span><span class="p">(</span>
-            <span class="n">prog</span><span class="o">=</span><span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">stack</span><span class="p">),</span>
+            <span class="n">prog</span><span class="o">=</span><span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_stack</span><span class="p">),</span>
             <span class="n">description</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">description</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Command.stackAppendleft"><a class="viewcode-back" href="../../all_submodules.html#simpleCli.base.Command.stackAppendleft">[docs]</a>    <span class="k">def</span> <span class="nf">stackAppendleft</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="Command.stackAppendleft"><a class="viewcode-back" href="../../submodules.html#oocli.base.Command.stackAppendleft">[docs]</a>    <span class="k">def</span> <span class="nf">stackAppendleft</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Updates self.stack by prepending value to the list and re-initalizing the parser</span>
+<span class="sd">        Updates self._stack by prepending value to the list and re-initalizing the parser</span>
 <span class="sd">        If you create a subclass that contains other commands (like the Interpreter class)</span>
 
 <span class="sd">        :param str value: The item to prepend (deque.appendleft()) to the stack</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">stack</span><span class="o">.</span><span class="n">appendleft</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_stack</span><span class="o">.</span><span class="n">appendleft</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">initParser</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="Command.parse"><a class="viewcode-back" href="../../all_submodules.html#simpleCli.base.Command.parse">[docs]</a>    <span class="k">def</span> <span class="nf">parse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
+<div class="viewcode-block" id="Command.parse"><a class="viewcode-back" href="../../submodules.html#oocli.base.Command.parse">[docs]</a>    <span class="k">def</span> <span class="nf">parse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Parse arguments through self._parser</span>
 
@@ -126,7 +135,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">(</span><span class="n">args</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Command.do"><a class="viewcode-back" href="../../all_submodules.html#simpleCli.base.Command.do">[docs]</a>    <span class="k">def</span> <span class="nf">do</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
+<div class="viewcode-block" id="Command.do"><a class="viewcode-back" href="../../submodules.html#oocli.base.Command.do">[docs]</a>    <span class="k">def</span> <span class="nf">do</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
         <span class="c1">#pylint: disable=unused-argument,invalid-name</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Execute the command (not implemented in BaseCommand)</span>
@@ -162,7 +171,7 @@
 <h3>Navigation</h3>
 <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../all_submodules.html">All Submodules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../submodules.html">All Submodules</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../examples.html">Examples</a></li>
 </ul>
 

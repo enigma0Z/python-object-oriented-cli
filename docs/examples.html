@@ -16,7 +16,7 @@
     <script type="text/javascript" src="_static/language_data.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="prev" title="All Submodules" href="all_submodules.html" />
+    <link rel="prev" title="All Submodules" href="submodules.html" />
    
   <link rel="stylesheet" href="_static/custom.css" type="text/css" />
   
@@ -54,8 +54,8 @@ test
 </pre></div>
 </div>
 </div>
-<span class="target" id="module-examples.inheritance"></span><div class="section" id="inheritence-example">
-<h2>Inheritence example<a class="headerlink" href="#inheritence-example" title="Permalink to this headline">¶</a></h2>
+<span class="target" id="module-examples.inheritance"></span><div class="section" id="inheritance-example">
+<h2>Inheritance example<a class="headerlink" href="#inheritance-example" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="examples.inheritance.Cmp">
 <em class="property">class </em><code class="descclassname">examples.inheritance.</code><code class="descname">Cmp</code><a class="reference internal" href="_modules/examples/inheritance.html#Cmp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#examples.inheritance.Cmp" title="Permalink to this definition">¶</a></dt>
@@ -115,6 +115,70 @@ stack gets changed, everything is updated correctly.</p>
 </dd></dl>
 
 </div>
+<span class="target" id="module-examples.annotations"></span><div class="section" id="annotations-example">
+<h2>Annotations example<a class="headerlink" href="#annotations-example" title="Permalink to this headline">¶</a></h2>
+<p>Code:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+
+<span class="c1">#pylint: disable=wrong-import-position</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;../&quot;</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">oocli</span> <span class="k">import</span> <span class="n">base</span><span class="p">,</span> <span class="n">interpreter</span><span class="p">,</span> <span class="n">entrypoint</span><span class="p">,</span> <span class="n">echo</span>
+
+<span class="nd">@interpreter</span><span class="o">.</span><span class="n">Command</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&quot;My Command&quot;</span><span class="p">)</span>
+<span class="k">class</span> <span class="nc">mainCmd</span><span class="p">(</span><span class="n">interpreter</span><span class="o">.</span><span class="n">Command</span><span class="p">):</span>
+    <span class="s2">&quot;Main Command for the program&quot;</span>
+    <span class="k">pass</span>
+
+<span class="nd">@mainCmd</span><span class="o">.</span><span class="n">add</span>
+<span class="nd">@interpreter</span><span class="o">.</span><span class="n">Command</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;regex&quot;</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Regex comparisons&quot;</span><span class="p">)</span>
+<span class="k">class</span> <span class="nc">regexCmd</span><span class="p">(</span><span class="n">interpreter</span><span class="o">.</span><span class="n">Command</span><span class="p">):</span>
+    <span class="s2">&quot;Regex subcommand&quot;</span>
+    <span class="k">pass</span>
+
+<span class="nd">@mainCmd</span><span class="o">.</span><span class="n">add</span>
+<span class="nd">@interpreter</span><span class="o">.</span><span class="n">Command</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;generic&quot;</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Generic comparisons&quot;</span><span class="p">)</span>
+<span class="k">class</span> <span class="nc">genericCmd</span><span class="p">(</span><span class="n">interpreter</span><span class="o">.</span><span class="n">Command</span><span class="p">):</span>
+    <span class="s2">&quot;Generic (comparions) subcommand&quot;</span>
+    <span class="k">pass</span>
+
+<span class="nd">@mainCmd</span><span class="o">.</span><span class="n">add</span>
+<span class="nd">@echo</span><span class="o">.</span><span class="n">Command</span><span class="p">()</span>
+<span class="k">class</span> <span class="nc">echoCmd</span><span class="p">(</span><span class="n">echo</span><span class="o">.</span><span class="n">Command</span><span class="p">):</span>
+    <span class="s2">&quot;Echo command&quot;</span>
+    <span class="k">pass</span>
+
+<span class="nd">@mainCmd</span><span class="o">.</span><span class="n">regex</span><span class="o">.</span><span class="n">add</span>
+<span class="nd">@base</span><span class="o">.</span><span class="n">Command</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;match&quot;</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Regex re.match() comparison&quot;</span><span class="p">)</span>
+<span class="k">class</span> <span class="nc">reCmd</span><span class="p">(</span><span class="n">base</span><span class="o">.</span><span class="n">Command</span><span class="p">):</span>
+    <span class="s2">&quot;Regex comparison command&quot;</span>
+    <span class="k">def</span> <span class="nf">initParser</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">initParser</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;regex&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;string&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">do</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
+        <span class="n">opts</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">opts</span><span class="o">.</span><span class="n">regex</span><span class="p">,</span> <span class="n">opts</span><span class="o">.</span><span class="n">string</span><span class="p">)</span>
+
+<span class="nd">@mainCmd</span><span class="o">.</span><span class="n">generic</span><span class="o">.</span><span class="n">add</span>
+<span class="nd">@base</span><span class="o">.</span><span class="n">Command</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;equals&quot;</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Equals comparison&quot;</span><span class="p">)</span>
+<span class="k">class</span> <span class="nc">equalsCmd</span><span class="p">(</span><span class="n">base</span><span class="o">.</span><span class="n">Command</span><span class="p">):</span>
+    <span class="s2">&quot;Equals comparison command&quot;</span>
+    <span class="k">def</span> <span class="nf">initParser</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">initParser</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;left&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;right&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">do</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
+        <span class="n">opts</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">opts</span><span class="o">.</span><span class="n">left</span> <span class="o">==</span> <span class="n">opts</span><span class="o">.</span><span class="n">right</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">entrypoint</span><span class="o">.</span><span class="n">Command</span><span class="p">(</span><span class="s2">&quot;Annotation example&quot;</span><span class="p">,</span> <span class="n">mainCmd</span><span class="p">)</span><span class="o">.</span><span class="n">do</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
 </div>
 
 
@@ -136,10 +200,11 @@ stack gets changed, everything is updated correctly.</p>
 <h3>Navigation</h3>
 <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="all_submodules.html">All Submodules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="submodules.html">All Submodules</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Examples</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#simple-example">Simple Example</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#inheritence-example">Inheritence example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#inheritance-example">Inheritance example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#annotations-example">Annotations example</a></li>
 </ul>
 </li>
 </ul>
@@ -148,7 +213,7 @@ stack gets changed, everything is updated correctly.</p>
 <h3>Related Topics</h3>
 <ul>
   <li><a href="index.html">Documentation overview</a><ul>
-      <li>Previous: <a href="all_submodules.html" title="previous chapter">All Submodules</a></li>
+      <li>Previous: <a href="submodules.html" title="previous chapter">All Submodules</a></li>
   </ul></li>
 </ul>
 </div>
