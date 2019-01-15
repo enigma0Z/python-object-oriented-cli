@@ -6,3 +6,6 @@ Examples
 
 .. automodule:: examples.inheritance
     :members:
+
+.. automodule:: examples.annotations
+    :members:

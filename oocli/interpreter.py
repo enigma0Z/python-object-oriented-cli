@@ -20,9 +20,11 @@ class Command(base.Command):
 
     Example:
 
-    .. testcode::
+    .. testsetup:: *
 
         from oocli import base, interpreter, echo
+
+    .. testcode::
 
         command = interpreter.Command(
             name=None,
@@ -59,6 +61,9 @@ class Command(base.Command):
     """
 
     def __init__(self, name=None, cmd=None, description=None, commands=None, stack=None):
+        #pylint: disable-msg=R0913
+        #pylint: disable=W0511
+        #TODO: Mae this better
         if name is None:
             name = sys.argv[0].split("/")[-1]
 
@@ -73,12 +78,53 @@ class Command(base.Command):
 
         self.commands = {}
         if commands is not None and isinstance(commands, list):
-            self.add(commands)
-
-    def _constructorDict(self):
-        return super()._constructorDict()
+            self.add(*commands)
 
     def add(self, *args):
+        """
+        Add a command to the interpreter.  Can be used as a @decorator or called directly
+
+        :param args: The commands to be added.
+        :raises: AssertionException
+
+        Instances:
+
+        .. testcode:: instances
+
+            rootCmd = interpreter.Command(name="root", description="root command")
+            echoCmd = echo.Command()
+            rootCmd.add(echoCmd)
+            rootCmd.do("echo", "test")
+
+        Output:
+
+        .. testoutput:: instances
+
+            test
+
+        Annotations:
+
+        .. testcode:: Annotations
+
+            @interpreter.Command(name="root", description = "root command")
+            class rootCmd(interpreter.Command):
+                # Do subClass stuff here
+                pass
+
+            @rootCmd.add
+            @echo.Command()
+            class echoCmd(echo.Command):
+               pass
+
+            rootCmd.do("echo", "test")
+
+        Output:
+
+        .. testoutput:: Annotations
+
+            test
+
+        """
         for item in args:
             assert isinstance(item, base.Command)
             item.stackAppendleft(self.cmd)
@@ -105,7 +151,7 @@ class Command(base.Command):
 
     def call(self, cmd, *args):
         """
-        Call member command <cmd> with *args
+        Call member command <cmd> with args
         """
         try:
             assert cmd is not None

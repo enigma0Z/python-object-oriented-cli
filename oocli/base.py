@@ -34,7 +34,7 @@ class Command:
         assert baseCommand.name == "Test"
         assert baseCommand.cmd == "test"
         assert baseCommand.description == "Description"
-        assert baseCommand.stack == deque(["test"])
+        assert baseCommand._stack == deque(["test"])
 
     """
 
