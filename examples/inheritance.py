@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Inheritence example
+Inheritance example
 -------------------
 """
 
